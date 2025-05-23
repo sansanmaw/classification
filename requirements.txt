@@ -1,0 +1,11 @@
+streamlit>=1.30.0
+tensorflow>=2.10.0
+numpy
+pillow
+matplotlib
+scikit-learn
+rich==14.0.0
+pygments==2.19.1
+markdown-it-py==3.0.0
+mdurl==0.1.2
+
