@@ -17,7 +17,7 @@ def load_trained_model():
 
 
 if image_file is not None:
-    st.image(image_file, caption='Image', use_column_width=True)
+    st.image(image_file, caption='Image', use_container_width=True)
     image = Image.open(image_file)
     image = image.resize((200, 200), Image.Resampling.LANCZOS)
     img_array = np.array(image)
@@ -27,5 +27,5 @@ if image_file is not None:
     prediction_score = model.predict(x)[0][0]  
 
     # Interpret prediction
-    prediction = 'Icecream' if prediction_score > 0.5 else 'Pizza'
+    prediction = 'Pizza' if prediction_score > 0.5 else 'Icecream'
     st.markdown(f"<h3>The image is predicted as: <span style='color:blue'>{prediction}</span></h3>", unsafe_allow_html=True)
