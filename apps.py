@@ -4,7 +4,7 @@ from PIL import Image
 from tensorflow import keras
 
 st.set_page_config(page_title='Icecream, Pizza Recognition')
-st.title('🍕🍦 Icecream and Pizza Classifier_ by SSM')
+st.title('🍕🍦 Icecream and Pizza Classifier_by SSM')
 
 @st.cache_resource
 def load_trained_model():
@@ -14,7 +14,10 @@ def load_trained_model():
 
 model = load_trained_model()
 
-uploaded_files = st.file_uploader("Upload one or more images", type=['jpg', 'png'], accept_multiple_files=True)
+if 'uploaded_files' not in st.session_state:
+    st.session_state.uploaded_files = None
+
+uploaded_files = st.file_uploader("Upload one or more images", type=['jpg', 'png'], accept_multiple_files=True, key="uploaded_files")
 
 if uploaded_files:
     with st.spinner('Classifying images...'):
@@ -36,4 +39,5 @@ else:
     st.info("Please upload images to classify.")
 
 if st.button('Clear'):
+    st.session_state.uploaded_files = None
     st.experimental_rerun()
