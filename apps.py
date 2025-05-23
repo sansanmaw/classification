@@ -14,10 +14,7 @@ def load_trained_model():
 
 model = load_trained_model()
 
-if 'uploaded_files' not in st.session_state:
-    st.session_state.uploaded_files = None
-
-uploaded_files = st.file_uploader("Upload one or more images", type=['jpg', 'png'], accept_multiple_files=True, key="uploaded_files")
+uploaded_files = st.file_uploader("Upload one or more images", type=['jpg', 'png'], accept_multiple_files=True)
 
 if uploaded_files:
     with st.spinner('Classifying images...'):
@@ -38,6 +35,6 @@ if uploaded_files:
 else:
     st.info("Please upload images to classify.")
 
+# Clear button (reloads app only)
 if st.button('Clear'):
-    st.session_state.uploaded_files = None
     st.experimental_rerun()
