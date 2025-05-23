@@ -4,14 +4,7 @@ from PIL import Image
 from tensorflow import keras
 
 st.set_page_config(page_title='Icecream, Pizza Recognition')
-st.title('San San Maw_🍦 Icecream and 🍕 Pizza Classification')
-
-# Sidebar options
-threshold = st.sidebar.slider('Prediction threshold', 0.0, 1.0, 0.5)
-show_confidence = st.sidebar.checkbox('Show confidence score', True)
-
-# Multiple image upload
-image_files = st.file_uploader('Choose images', type=['jpg', 'png'], accept_multiple_files=True)
+st.title('🍕🍦 Icecream and Pizza Classifier_ by SSM')
 
 @st.cache_resource
 def load_trained_model():
@@ -19,27 +12,28 @@ def load_trained_model():
     model.make_predict_function()
     return model
 
-if image_files:
-    model = load_trained_model()
-    
-    for image_file in image_files:
-        image = Image.open(image_file).resize((200, 200), Image.Resampling.LANCZOS)
-        st.image(image, caption=image_file.name, use_container_width=True)
+model = load_trained_model()
 
-        img_array = np.array(image)
-        x = np.expand_dims(img_array, axis=0) / 255.0
+uploaded_files = st.file_uploader("Upload one or more images", type=['jpg', 'png'], accept_multiple_files=True)
 
-        with st.spinner('Predicting...'):
+if uploaded_files:
+    with st.spinner('Classifying images...'):
+        cols = st.columns(3)
+        for i, image_file in enumerate(uploaded_files):
+            image = Image.open(image_file)
+            image = image.resize((200, 200), Image.Resampling.LANCZOS)
+            img_array = np.array(image)
+            x = np.expand_dims(img_array, axis=0) / 255.0
+
             prediction_score = model.predict(x)[0][0]
+            prediction = 'Pizza 🍕' if prediction_score > 0.5 else 'Ice Cream 🍦'
 
-        prediction = 'Pizza' if prediction_score > threshold else 'Icecream'
-        st.markdown(
-            f"<h3>The image is predicted as: <span style='color:blue'>{prediction}</span></h3>",
-            unsafe_allow_html=True
-        )
-
-        if show_confidence:
-            st.write(f"Confidence score: {prediction_score:.2f}")
-
+            col = cols[i % 3]
+            with col:
+                st.image(image, use_container_width=True)
+                st.markdown(f"**Prediction:** {prediction}")
 else:
-    st.info('Please upload one or more images to get started!')
+    st.info("Please upload images to classify.")
+
+if st.button('Clear'):
+    st.experimental_rerun()
