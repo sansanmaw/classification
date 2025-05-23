@@ -2,6 +2,10 @@ import streamlit as st
 import numpy as np
 from PIL import Image
 from tensorflow import keras
+import sys
+import streamlit as st
+
+st.write("Python version:", sys.version)
 
 
 st.set_page_config(page_title='Icecream, Pizza Recognition')
