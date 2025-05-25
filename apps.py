@@ -4,7 +4,7 @@ from PIL import Image
 from tensorflow import keras
 
 st.set_page_config(page_title='Icecream, Pizza Recognition')
-st.title('🍕🍦 Icecream and Pizza Classifier_by SSM')
+st.title('Icecream and Pizza Classifier_(San San Maw)')
 
 @st.cache_resource
 def load_trained_model():
